@@ -4,6 +4,7 @@ import { getEventById } from "../../data/test_data";
 import EventSummary from "../../components/eventDetailed/eventSummary";
 import EventLocation from "../../components/eventDetailed/eventLocation";
 import EventContent from "../../components/eventDetailed/eventContent";
+import ErrorAlert from "../../ui/errorAlert";
 
 function SingleEventPage() {
   const router = useRouter();
@@ -12,7 +13,9 @@ function SingleEventPage() {
   const event = getEventById(eventId);
 
   return !event ? (
-    <p>Увы, такого события не существует! (по крайней мере пока)</p>
+    <ErrorAlert>
+      <p>Увы, такого события не существует! (по крайней мере пока)</p>
+    </ErrorAlert>
   ) : (
     <>
       <EventSummary title={event.title} />
