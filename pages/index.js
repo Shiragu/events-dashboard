@@ -1,9 +1,8 @@
 import EventList from "../components/events/eventList";
-import { getFeaturedEvents } from "../data/test_data";
+import { getFeaturedEvents } from "../utils/api-util";
 import { css } from "@emotion/css";
 
-function HomePage() {
-  const featuredEvents = getFeaturedEvents();
+function HomePage({ events }) {
   return (
     <div>
       <h1
@@ -13,9 +12,18 @@ function HomePage() {
       >
         Ближайшие события
       </h1>
-      <EventList events={featuredEvents} />
+      <EventList events={events} />
     </div>
   );
+}
+
+export async function getStaticProps() {
+  const featuredEvents = await getFeaturedEvents();
+  return {
+    props: {
+      events: featuredEvents,
+    },
+  };
 }
 
 export default HomePage;
