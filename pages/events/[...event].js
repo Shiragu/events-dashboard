@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import { getFilteredEvents } from "../../utils/api-util";
 
 import ResultsTitle from "../../components/resultsTitle";
