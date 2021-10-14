@@ -1,6 +1,8 @@
+import { css } from "@emotion/css";
+
 import EventList from "../components/events/eventList";
 import { getFeaturedEvents } from "../utils/api-util";
-import { css } from "@emotion/css";
+import NewsletterRegistration from "../components/newsLetter";
 
 function HomePage({ events }) {
   return (
@@ -12,6 +14,7 @@ function HomePage({ events }) {
       >
         Ближайшие события
       </h1>
+      <NewsletterRegistration />
       <EventList events={events} />
     </div>
   );
