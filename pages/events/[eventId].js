@@ -1,16 +1,12 @@
-import { useRouter } from "next/router";
-import { getEventById } from "../../data/test_data";
+import { getEventById, getFeaturedEvents } from "../../utils/api-util";
 
 import EventSummary from "../../components/eventDetailed/eventSummary";
 import EventLocation from "../../components/eventDetailed/eventLocation";
 import EventContent from "../../components/eventDetailed/eventContent";
 import ErrorAlert from "../../ui/errorAlert";
 
-function SingleEventPage() {
-  const router = useRouter();
-
-  const eventId = router.query.eventId;
-  const event = getEventById(eventId);
+function SingleEventPage({ event }) {
+  const { title, description, location, image, date } = event;
 
   return !event ? (
     <ErrorAlert>
@@ -18,18 +14,42 @@ function SingleEventPage() {
     </ErrorAlert>
   ) : (
     <>
-      <EventSummary title={event.title} />
+      <EventSummary title={title} />
       <EventLocation
-        date={event.date}
-        address={event.location}
-        image={event.image}
-        imageAlt={event.title}
+        date={date}
+        address={location}
+        image={image}
+        imageAlt={title}
       />
       <EventContent>
-        <p>{event.description}</p>
+        <p>{description}</p>
       </EventContent>
     </>
   );
+}
+
+export async function getStaticProps(context) {
+  const eventId = context.params.eventId;
+
+  const event = await getEventById(eventId);
+
+  return {
+    props: {
+      event,
+    },
+    revalidate: 60,
+  };
+}
+
+export async function getStaticPaths() {
+  const events = await getFeaturedEvents();
+
+  const paths = events.map((event) => ({ params: { eventId: event.id } }));
+
+  return {
+    paths,
+    fallback: "blocking",
+  };
 }
 
 export default SingleEventPage;
