@@ -70,6 +70,7 @@ function NewComment({ onAddComment }) {
           background-color: white;
         }
       `}
+      onSubmit={sendCommentHandler}
     >
       <div
         className={css`

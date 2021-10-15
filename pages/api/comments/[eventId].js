@@ -2,7 +2,7 @@ function handler(req, res) {
   const eventId = req.query.eventId;
 
   if (req.method === "POST") {
-    const { email, text, name } = req.body;
+    const { email, name, text } = req.body;
 
     if (
       !email.includes("@") ||
@@ -28,6 +28,7 @@ function handler(req, res) {
       .status(201)
       .json({ message: "Комментарий успешно добавлен!", comment: newComment });
   }
+
   if (req.method === "GET") {
     const tempData = [
       { id: "c1", name: "Вася", text: "Рандомный коммент" },

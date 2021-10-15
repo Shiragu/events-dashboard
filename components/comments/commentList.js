@@ -1,6 +1,6 @@
 import { css } from "@emotion/css";
 
-function CommentList() {
+function CommentList({ comments }) {
   return (
     <ul
       className={css`
@@ -24,19 +24,14 @@ function CommentList() {
         }
       `}
     >
-      {/* комментарии будем подтягивать из апи */}
-      <li>
-        <p>Как же я хорош!</p>
-        <div>
-          Написал <address>Кто-то</address>
-        </div>
-      </li>
-      <li>
-        <p>Как же я хорош!</p>
-        <div>
-          Написал <address>Кто-то</address>
-        </div>
-      </li>
+      {comments.map((comment) => (
+        <li key={comment.id}>
+          <p>{comment.text}</p>
+          <div>
+            Написал <address>{comment.name}</address>
+          </div>
+        </li>
+      ))}
     </ul>
   );
 }
