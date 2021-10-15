@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { css } from "@emotion/css";
 
-function NewComment(props) {
+function NewComment({ onAddComment }) {
   const [isInvalid, setIsInvalid] = useState(false);
 
   const emailInputRef = useRef();
@@ -28,7 +28,7 @@ function NewComment(props) {
       return;
     }
 
-    props.onAddComment({
+    onAddComment({
       email: enteredEmail,
       name: enteredName,
       text: enteredComment,
