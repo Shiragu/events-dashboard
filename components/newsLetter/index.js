@@ -1,10 +1,23 @@
 import { css } from "@emotion/css";
+import { useRef } from "react";
 
 function NewsletterRegistration() {
+  const emailInputRef = useRef();
+
   function registrationHandler(event) {
     event.preventDefault();
 
-    // место для фетча
+    const userEmail = emailInputRef.current.value;
+
+    fetch("/api/newsletter", {
+      method: "POST",
+      body: JSON.stringify({ email: userEmail }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data));
   }
 
   const newsletter = css`
@@ -54,6 +67,7 @@ function NewsletterRegistration() {
             id="email"
             placeholder="Ваш email"
             aria-label="Ваш email"
+            ref={emailInputRef}
           />
           <button>Подписаться</button>
         </div>

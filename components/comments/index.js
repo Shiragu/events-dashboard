@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { css } from "@emotion/css";
 
 import CommentList from "./commentList";
@@ -6,13 +6,32 @@ import NewComment from "./newComment";
 
 function Comments({ eventId }) {
   const [showComments, setShowComments] = useState(false);
+  const [comments, setComments] = useState([]);
+
+  useEffect(() => {
+    if (showComments) {
+      fetch(`/api/comments/${eventId}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setComments(data.comments);
+        });
+    }
+  }, [showComments]);
 
   function toggleCommentsHandler() {
     setShowComments((prevStatus) => !prevStatus);
   }
 
   function addCommentHandler(commentData) {
-    // отправляем данные через апи
+    fetch(`/api/comments/${eventId}`, {
+      method: "POST",
+      body: JSON.stringify(commentData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data));
   }
 
   return (
@@ -41,7 +60,7 @@ function Comments({ eventId }) {
         {showComments ? "Скрыть" : "Показать"} комментарии
       </button>
       {showComments && <NewComment onAddComment={addCommentHandler} />}
-      {showComments && <CommentList />}
+      {showComments && <CommentList comments={comments} />}
     </section>
   );
 }
