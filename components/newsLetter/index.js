@@ -1,13 +1,22 @@
 import { css } from "@emotion/css";
-import { useRef } from "react";
+import { useRef, useContext } from "react";
+import NotificationContext from "../../store/notification-context";
 
 function NewsletterRegistration() {
   const emailInputRef = useRef();
+
+  const notificationCtx = useContext(NotificationContext);
 
   function registrationHandler(event) {
     event.preventDefault();
 
     const userEmail = emailInputRef.current.value;
+
+    notificationCtx.showNotification({
+      title: "Подождите...",
+      message: "Подписываемся на рассылку...",
+      status: "pending",
+    });
 
     fetch("/api/newsletter", {
       method: "POST",
@@ -16,8 +25,29 @@ function NewsletterRegistration() {
         "Content-Type": "application/json",
       },
     })
-      .then((response) => response.json())
-      .then((data) => console.log(data));
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+
+        return response.json().then((data) => {
+          throw new Error(data.message || "Что-то пошло не так!");
+        });
+      })
+      .then((data) =>
+        notificationCtx.showNotification({
+          title: "Успех!",
+          message: "Вы успешно подписались на рассылку!",
+          status: "success",
+        })
+      )
+      .catch((error) => {
+        notificationCtx.showNotification({
+          title: "Ошибка!",
+          message: error.message || "Что-то пошло не так!",
+          status: "error",
+        });
+      });
   }
 
   const newsletter = css`
