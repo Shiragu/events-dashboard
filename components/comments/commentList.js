@@ -25,7 +25,7 @@ function CommentList({ comments }) {
       `}
     >
       {comments.map((comment) => (
-        <li key={comment.id}>
+        <li key={comment._id}>
           <p>{comment.text}</p>
           <div>
             Написал <address>{comment.name}</address>

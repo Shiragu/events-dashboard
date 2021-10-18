@@ -1,4 +1,4 @@
-import { MongoClient } from "mongodb";
+import { connectDatabase, insertDocument } from "../../utils/db-util";
 
 async function handler(req, res) {
   if (req.method === "POST") {
@@ -9,12 +9,21 @@ async function handler(req, res) {
       return;
     }
 
-    const client = await MongoClient.connect("url");
-    const db = client.db();
+    let client;
 
-    await db.collection("emails").insertOne({ email: userEmail });
+    try {
+      client = await connectDatabase();
+    } catch (error) {
+      res.status(500).json({ message: "Ошибка подключения к БД!" });
+      return;
+    }
 
-    client.close();
+    try {
+      await insertDocument(client, "emails", { email: userEmail });
+    } catch (error) {
+      res.status(500).json({ message: "Ошибка добавления данных в БД!" });
+      return;
+    }
 
     console.log(userEmail);
     res.status(201).json({ message: "Вы подписались!" });
