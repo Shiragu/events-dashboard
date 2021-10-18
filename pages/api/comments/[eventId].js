@@ -1,5 +1,20 @@
-function handler(req, res) {
+import {
+  connectDatabase,
+  getAllDocuments,
+  insertDocument,
+} from "../../../utils/db-util";
+
+async function handler(req, res) {
   const eventId = req.query.eventId;
+
+  let client;
+
+  try {
+    client = await connectDatabase();
+  } catch (error) {
+    res.status(500).json({ message: "Ошибка подключения к БД!" });
+    return;
+  }
 
   if (req.method === "POST") {
     const { email, name, text } = req.body;
@@ -16,27 +31,42 @@ function handler(req, res) {
     }
 
     const newComment = {
-      id: new Date().toISOString(),
       email,
       name,
       text,
+      eventId,
     };
 
-    console.log(newComment);
+    let result;
 
-    res
-      .status(201)
-      .json({ message: "Комментарий успешно добавлен!", comment: newComment });
+    try {
+      result = await insertDocument(client, "comments", newComment);
+      newComment._id = result.insertedId;
+      res.status(201).json({
+        message: "Комментарий успешно добавлен!",
+        comment: newComment,
+      });
+    } catch (error) {
+      res.status(500).json({ message: "Ошибка добавления комментария!" });
+    }
   }
 
   if (req.method === "GET") {
-    const tempData = [
-      { id: "c1", name: "Вася", text: "Рандомный коммент" },
-      { id: "c2", name: "Макс", text: "Рандомный коммент" },
-      { id: "c3", name: "Кто-то", text: "Рандомный коммент" },
-    ];
+    let documents;
 
-    res.status(200).json({ comments: tempData });
+    try {
+      documents = await getAllDocuments(
+        client,
+        "comments",
+        { _id: -1 },
+        { eventId: eventId }
+      );
+      res.status(200).json({ comments: documents });
+    } catch (error) {
+      res
+        .status(500)
+        .json({ message: "Ошибка получения списка комментариев!" });
+    }
   }
 }
 
