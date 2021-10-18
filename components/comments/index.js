@@ -1,19 +1,24 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { css } from "@emotion/css";
 
 import CommentList from "./commentList";
 import NewComment from "./newComment";
+import NotificationContext from "../../store/notification-context";
 
 function Comments({ eventId }) {
   const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState([]);
+  const [isFetching, setIsFetching] = useState(false);
+  const notificationCtx = useContext(NotificationContext);
 
   useEffect(() => {
     if (showComments) {
+      setIsFetching(true);
       fetch(`/api/comments/${eventId}`)
         .then((response) => response.json())
         .then((data) => {
           setComments(data.comments);
+          setIsFetching(false);
         });
     }
   }, [showComments]);
@@ -23,6 +28,12 @@ function Comments({ eventId }) {
   }
 
   function addCommentHandler(commentData) {
+    notificationCtx.showNotification({
+      title: "Подождите...",
+      message: "Добавляем комментарий...",
+      status: "pending",
+    });
+
     fetch(`/api/comments/${eventId}`, {
       method: "POST",
       body: JSON.stringify(commentData),
@@ -30,8 +41,29 @@ function Comments({ eventId }) {
         "Content-Type": "application/json",
       },
     })
-      .then((response) => response.json())
-      .then((data) => console.log(data));
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+
+        return response.json().then((data) => {
+          throw new Error(data.message || "Что-то пошло не так!");
+        });
+      })
+      .then((data) =>
+        notificationCtx.showNotification({
+          title: "Успех!",
+          message: "Ваш комментарий добавлен!",
+          status: "success",
+        })
+      )
+      .catch((error) => {
+        notificationCtx.showNotification({
+          title: "Ошибка!",
+          message: error.message || "Что-то пошло не так!",
+          status: "error",
+        });
+      });
   }
 
   return (
@@ -60,7 +92,8 @@ function Comments({ eventId }) {
         {showComments ? "Скрыть" : "Показать"} комментарии
       </button>
       {showComments && <NewComment onAddComment={addCommentHandler} />}
-      {showComments && <CommentList comments={comments} />}
+      {showComments && !isFetching && <CommentList comments={comments} />}
+      {showComments && isFetching && <p>Подгружаем комменты...</p>}
     </section>
   );
 }
