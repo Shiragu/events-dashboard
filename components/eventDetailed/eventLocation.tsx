@@ -1,11 +1,21 @@
 import React from "react";
-import Image from "next/image";
+import Image, { ImageProps } from "next/image";
 import { css } from "@emotion/css";
 
 import { AddressIcon, DateIcon } from "../../ui/icons";
 import LocationItem from "./eventLocationItem";
 
-function EventLocation({ date, address, image, imageAlt }) {
+function EventLocation({
+  date,
+  address,
+  image,
+  imageAlt,
+}: {
+  date: string;
+  address: string;
+  image: ImageProps;
+  imageAlt: string;
+}) {
   const formattedDate = new Date(date).toLocaleDateString("ru-RU", {
     day: "numeric",
     month: "long",

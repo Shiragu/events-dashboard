@@ -1,7 +1,7 @@
 import React from "react";
 import { css } from "@emotion/css";
 
-function EventSummary({ title }) {
+function EventSummary({ title }: { title: string }) {
   const eventSummary = css`
     width: 100%;
     height: 30vh;

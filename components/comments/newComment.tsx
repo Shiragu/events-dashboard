@@ -1,12 +1,12 @@
 import { useRef, useState } from "react";
 import { css } from "@emotion/css";
 
-function NewComment({ onAddComment }) {
+function NewComment({ onAddComment }: { onAddComment: Function }) {
   const [isInvalid, setIsInvalid] = useState(false);
 
-  const emailInputRef = useRef();
-  const nameInputRef = useRef();
-  const commentInputRef = useRef();
+  const emailInputRef = useRef<any>();
+  const nameInputRef = useRef<any>();
+  const commentInputRef = useRef<any>();
 
   function sendCommentHandler(event) {
     event.preventDefault();
@@ -90,7 +90,7 @@ function NewComment({ onAddComment }) {
       </div>
       <div className={control}>
         <label htmlFor="comment">Чем хотите поделиться?</label>
-        <textarea id="comment" rows="5" ref={commentInputRef}></textarea>
+        <textarea id="comment" rows={5} ref={commentInputRef}></textarea>
       </div>
       {isInvalid && <p>Пожалуйста, введите корректные данные!</p>}
       <button>Отправить</button>

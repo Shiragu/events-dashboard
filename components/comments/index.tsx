@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState, useContext } from "react";
 import { css } from "@emotion/css";
 
@@ -7,7 +8,9 @@ import NotificationContext from "../../store/notification-context";
 
 function Comments({ eventId }) {
   const [showComments, setShowComments] = useState(false);
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState<
+    { _id: string; text: string; name: string }[]
+  >([]);
   const [isFetching, setIsFetching] = useState(false);
   const notificationCtx = useContext(NotificationContext);
 

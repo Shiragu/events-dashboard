@@ -1,7 +1,7 @@
-import React from "react";
+import React, { ReactChildren } from "react";
 import { css } from "@emotion/css";
 
-function EventContent(props) {
+function EventContent({ children }: { children: ReactChildren }) {
   return (
     <section
       className={css`
@@ -14,7 +14,7 @@ function EventContent(props) {
         text-align: center;
       `}
     >
-      {props.children}
+      {children}
     </section>
   );
 }

@@ -1,6 +1,10 @@
 import { css } from "@emotion/css";
 
-function CommentList({ comments }) {
+function CommentList({
+  comments,
+}: {
+  comments: { _id: string; text: string; name: string }[];
+}) {
   return (
     <ul
       className={css`
