@@ -1,7 +1,7 @@
-import React, { ReactChildren } from "react";
+import React from "react";
 import { css } from "@emotion/css";
 
-function EventContent({ children }: { children: ReactChildren }) {
+function EventContent({ children }: { children: React.ReactElement }) {
   return (
     <section
       className={css`

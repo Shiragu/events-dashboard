@@ -6,7 +6,7 @@ import CommentList from "./commentList";
 import NewComment from "./newComment";
 import NotificationContext from "../../store/notification-context";
 
-function Comments({ eventId }) {
+function Comments({ eventId }: { eventId: string }) {
   const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState<
     { _id: string; text: string; name: string }[]

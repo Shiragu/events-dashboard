@@ -1,7 +1,17 @@
 import { useRef, useState } from "react";
 import { css } from "@emotion/css";
 
-function NewComment({ onAddComment }: { onAddComment: Function }) {
+type Comment = {
+  email: string;
+  name: string;
+  text: string;
+};
+
+function NewComment({
+  onAddComment,
+}: {
+  onAddComment: (comment: Comment) => void;
+}) {
   const [isInvalid, setIsInvalid] = useState(false);
 
   const emailInputRef = useRef<any>();

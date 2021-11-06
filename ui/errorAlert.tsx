@@ -1,6 +1,7 @@
+import React from "react";
 import { css } from "@emotion/css";
 
-function ErrorAlert(props) {
+function ErrorAlert({ children }: { children: React.ReactChild }) {
   return (
     <div
       className={css`
@@ -16,7 +17,7 @@ function ErrorAlert(props) {
         border-radius: 6px;
       `}
     >
-      {props.children}
+      {children}
     </div>
   );
 }

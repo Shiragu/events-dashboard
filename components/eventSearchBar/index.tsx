@@ -2,9 +2,13 @@ import { useRef } from "react";
 import { css } from "@emotion/css";
 import Button from "../../ui/button";
 
-function EventSearchBar({ onSearch }) {
-  const yearInputRef = useRef();
-  const monthInputRef = useRef();
+function EventSearchBar({
+  onSearch,
+}: {
+  onSearch: (year: string, month: string) => void;
+}) {
+  const yearInputRef = useRef<any>();
+  const monthInputRef = useRef<any>();
 
   function submitHandler(event) {
     event.preventDefault();
@@ -90,7 +94,9 @@ function EventSearchBar({ onSearch }) {
           </select>
         </div>
       </div>
-      <Button>Искать события</Button>
+      <Button>
+        <>Искать события</>
+      </Button>
     </form>
   );
 }

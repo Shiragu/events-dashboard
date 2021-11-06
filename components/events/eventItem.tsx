@@ -4,7 +4,19 @@ import { css } from "@emotion/css";
 import Button from "../../ui/button";
 import { DateIcon, AddressIcon, ArrowRightIcon } from "../../ui/icons";
 
-function EventItem({ id, date, image, location, title }) {
+function EventItem({
+  id,
+  date,
+  image,
+  location,
+  title,
+}: {
+  id: string;
+  date: number;
+  image: ImageBitmapSource;
+  location: string;
+  title: string;
+}) {
   const convertedDate = new Date(date).toLocaleDateString("ru-RU", {
     day: "numeric",
     month: "long",
@@ -113,10 +125,12 @@ function EventItem({ id, date, image, location, title }) {
         </div>
         <div className={eventCardButton}>
           <Button link={eventsLink}>
-            <span>Подробнее о событии</span>
-            <span className={eventCardButtonIcon}>
-              <ArrowRightIcon />
-            </span>
+            <>
+              <span>Подробнее о событии</span>
+              <span className={eventCardButtonIcon}>
+                <ArrowRightIcon />
+              </span>
+            </>
           </Button>
         </div>
       </div>

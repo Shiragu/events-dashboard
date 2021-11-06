@@ -1,7 +1,18 @@
 import EventItem from "./eventItem";
 import { css } from "@emotion/css";
+import { ImageProps } from "next/image";
 
-function EventList({ events }) {
+function EventList({
+  events,
+}: {
+  events: {
+    id: string;
+    title: string;
+    date: number;
+    location: string;
+    image: ImageBitmapSource;
+  }[];
+}) {
   return (
     <ul
       className={css`
