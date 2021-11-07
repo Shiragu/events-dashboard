@@ -1,9 +1,7 @@
 import Button from "../../ui/button";
 import { css } from "@emotion/css";
 
-function ResultsTitle(props) {
-  const { date } = props;
-
+function ResultsTitle({ date }: { date: Date }) {
   const humanReadableDate = new Date(date).toLocaleDateString("ru-RU", {
     month: "long",
     year: "numeric",
@@ -19,7 +17,9 @@ function ResultsTitle(props) {
       `}
     >
       <h1>Список событий на {humanReadableDate}</h1>
-      <Button link="/events">Ко всем событиям</Button>
+      <Button link="/events">
+        <>Ко всем событиям</>
+      </Button>
     </section>
   );
 }

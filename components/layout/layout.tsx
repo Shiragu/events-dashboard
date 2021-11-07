@@ -1,12 +1,19 @@
-import { useContext } from "react";
+import { ReactChild, useContext } from "react";
 import Header from "./header";
-import Notification from "../../components/notification";
+import Notification from "../notification";
 import NotificationContext from "../../store/notification-context";
 
-function Layout({ children }) {
+export type NotificationItem = {
+  title: string;
+  message: string;
+  status: string;
+};
+
+function Layout({ children }: { children: ReactChild }) {
   const context = useContext(NotificationContext);
 
-  const activeNotification = context.notification;
+  const activeNotification =
+    context.notification as unknown as NotificationItem;
 
   return (
     <>

@@ -3,14 +3,18 @@ import { useEffect, useState, useContext } from "react";
 import { css } from "@emotion/css";
 
 import CommentList from "./commentList";
-import NewComment from "./newComment";
+import NewComment, { Comment } from "./newComment";
 import NotificationContext from "../../store/notification-context";
+
+type Comments = {
+  _id: string;
+  text: string;
+  name: string;
+}[];
 
 function Comments({ eventId }: { eventId: string }) {
   const [showComments, setShowComments] = useState(false);
-  const [comments, setComments] = useState<
-    { _id: string; text: string; name: string }[]
-  >([]);
+  const [comments, setComments] = useState<Comments>([]);
   const [isFetching, setIsFetching] = useState(false);
   const notificationCtx = useContext(NotificationContext);
 
@@ -30,7 +34,7 @@ function Comments({ eventId }: { eventId: string }) {
     setShowComments((prevStatus) => !prevStatus);
   }
 
-  function addCommentHandler(commentData) {
+  function addCommentHandler(commentData: Comment) {
     notificationCtx.showNotification({
       title: "Подождите...",
       message: "Добавляем комментарий...",

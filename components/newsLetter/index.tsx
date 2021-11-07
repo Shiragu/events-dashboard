@@ -1,16 +1,16 @@
 import { css } from "@emotion/css";
-import { useRef, useContext } from "react";
+import { useRef, useContext, FormEvent, MutableRefObject } from "react";
 import NotificationContext from "../../store/notification-context";
 
 function NewsletterRegistration() {
-  const emailInputRef = useRef();
+  const emailInputRef = useRef() as MutableRefObject<HTMLInputElement>;
 
   const notificationCtx = useContext(NotificationContext);
 
-  function registrationHandler(event) {
+  function registrationHandler(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const userEmail = emailInputRef.current.value;
+    const userEmail = emailInputRef.current?.value;
 
     notificationCtx.showNotification({
       title: "Подождите...",

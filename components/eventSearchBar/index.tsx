@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { FormEvent, MutableRefObject, useRef } from "react";
 import { css } from "@emotion/css";
 import Button from "../../ui/button";
 
@@ -7,14 +7,14 @@ function EventSearchBar({
 }: {
   onSearch: (year: string, month: string) => void;
 }) {
-  const yearInputRef = useRef<any>();
-  const monthInputRef = useRef<any>();
+  const yearInputRef = useRef() as MutableRefObject<HTMLSelectElement>;
+  const monthInputRef = useRef() as MutableRefObject<HTMLSelectElement>;
 
-  function submitHandler(event) {
+  function submitHandler(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const selectedYear = yearInputRef.current.value;
-    const selectedMonth = monthInputRef.current.value;
+    const selectedYear = yearInputRef.current?.value;
+    const selectedMonth = monthInputRef.current?.value;
 
     onSearch(selectedYear, selectedMonth);
   }

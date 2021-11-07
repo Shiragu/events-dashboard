@@ -1,7 +1,8 @@
 import React from "react";
 import { css } from "@emotion/css";
+import { AddressIcon } from "../../ui/icons";
 
-function LocationItem({ icon: Icon, children }) {
+function LocationItem({ children }: { children: React.ReactElement }) {
   const locationItem = css`
     display: flex;
     font-size: 1.5rem;
@@ -26,7 +27,7 @@ function LocationItem({ icon: Icon, children }) {
   return (
     <li className={locationItem}>
       <span className={locationIcon}>
-        <Icon />
+        <AddressIcon />
       </span>
       <span>{children}</span>
     </li>

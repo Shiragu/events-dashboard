@@ -2,8 +2,9 @@ import { useContext } from "react";
 import { css } from "@emotion/css";
 
 import NotificationContext from "../../store/notification-context";
+import { NotificationItem } from "../layout/layout";
 
-function Notification({ title, message, status }) {
+function Notification({ title, message, status }: NotificationItem) {
   const notificationCtx = useContext(NotificationContext);
 
   let statusColor = "#1b1b1b";

@@ -1,7 +1,7 @@
-import { useRef, useState } from "react";
+import { FormEvent, MutableRefObject, useRef, useState } from "react";
 import { css } from "@emotion/css";
 
-type Comment = {
+export type Comment = {
   email: string;
   name: string;
   text: string;
@@ -14,16 +14,16 @@ function NewComment({
 }) {
   const [isInvalid, setIsInvalid] = useState(false);
 
-  const emailInputRef = useRef<any>();
-  const nameInputRef = useRef<any>();
-  const commentInputRef = useRef<any>();
+  const emailInputRef = useRef() as MutableRefObject<HTMLInputElement>;
+  const nameInputRef = useRef() as MutableRefObject<HTMLInputElement>;
+  const commentInputRef = useRef() as MutableRefObject<HTMLTextAreaElement>;
 
-  function sendCommentHandler(event) {
+  function sendCommentHandler(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const enteredEmail = emailInputRef.current.value;
-    const enteredName = nameInputRef.current.value;
-    const enteredComment = commentInputRef.current.value;
+    const enteredEmail = emailInputRef.current?.value;
+    const enteredName = nameInputRef.current?.value;
+    const enteredComment = commentInputRef.current?.value;
 
     if (
       !enteredEmail ||
